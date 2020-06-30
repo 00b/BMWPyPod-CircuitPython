@@ -1,0 +1,33 @@
+RN52 config dump:
+
+Nearly default. BTName changed; 
+*** Settings ***
+BTA=000666546BCE
+BTAC=807ABFFA2128
+BTName=128iBT
+Authen=1
+COD=240704
+DiscoveryMask=04
+ConnectionMask=04
+PinCode=1234
+AudioConfig=0000
+AudioRoute=ANALOG
+CodecsEnabled=00
+AudioCodec=SBC
+ExtFeatures=00F8 - default  
+
+Cofigured Ext Features: 
+*** Settings ***
+BTA=000666546BCE
+BTAC=807ABFFA2128
+BTName=128iBT
+Authen=1
+COD=240704
+DiscoveryMask=04
+ConnectionMask=04
+PinCode=1234
+AudioConfig=0000
+AudioRoute=ANALOG
+CodecsEnabled=00
+AudioCodec=SBC
+ExtFeatures=1Cb6 - track change on event on, latching GPIO2 for events enabled, tones muted, discoverable on power on, reconnect on power on, reboot after disconnected. 
