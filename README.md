@@ -26,3 +26,5 @@ Hookup:
 * RN52 SPK_L+ <-> iPodBreakout 4. LOL+   
 * RN62 SPK_R+ <-> ipodBreakout 3. LOR+ 
 
+Known issues:
+Some charaters not displayed correctly on the display in the car. Encoding issue? Unlikely to spend much or anytime trying to fix. 
