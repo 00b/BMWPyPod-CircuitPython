@@ -5,8 +5,9 @@ Hardware:
 * 30 pin iPod connector Breakout board from Elabguy. 
 * Adafruit itsybitsy M4 express from Aadafruit. 
 
-Itsybitsy communicates to both the RN52 and Car iPod interface via UART. 
-GPIO2 from RN52 monitored by Itsybitsy for changes. 
+Itsybitsy communicates to both the RN52 and Car iPod interface via UART/Serial. 
+GPIO2 on RN52 monitored by Itsybitsy for changes. 
+GPIO9 on RN52 used to put RN52 into cmd mode by IstyBitsy. Could just ground it as well. 
 Audio passed directly from RN52 to ipod board. 
 
 Hookup:
