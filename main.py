@@ -47,7 +47,11 @@ if RN52Status[3] == 'D':
 else:
     print('Not Playing')
     # PyPod.SetPlayStatus(False)
-print('PlayStatus: ' + str(PyPod.PlayStatus))
+# print('PlayStatus: ' + str(PyPod.PlayStatus))
+
+if RN52Status[1] == '0':
+    MetaData['Title'] = 'Not Connected'
+print(MetaData)
 
 '''
 Check status of ChangeFlag Input pin.
@@ -66,9 +70,18 @@ if a play control command then send it.
 can build out more commands later.
 '''
 def ProcessCmdReq(cmd):
-    print(cmd.lower())
-    if cmd.lower() == 'playpause' or cmd.lower() == 'next' or cmd.lower() == 'prev':
+    cmd = cmd.lower()
+    if cmd == 'playpause' or cmd == 'next' or cmd == 'prev':
         print('PlayCommand: ' +  cmd)
+        if cmd == 'playpause' and PyPod.PlayStatus is True:
+            PyPod.PlayStatus = False
+        else:
+            PyPod.PlayStatus = True
+
+        if cmd == 'next' or cmd == 'prev':
+            PyPod.TrackChangeNotification('TrackUpdate')
+
+
         if RN52.PlayControl(cmd):
             return (True)
         else:
@@ -102,7 +115,7 @@ while(True):
 
             if NewStatus[3] == 'D' and RN52Status[3] == '3':
                 print('Play Status changed to: Playing')
-                # PyPod.SetPlayStatus(True)
+                PyPod.SetPlayStatus(True)
             if NewStatus[3] == '3' and RN52Status[3] == 'D':
                 print('Play Status changed to: Not Playing')
                 # PyPod.SetPlayStatus(False)
@@ -110,6 +123,7 @@ while(True):
                 print('Connection Status changed to: Connected')
             if NewStatus[1] == '0' and RN52Status[1] == '4':
                 print('Connection status changed to: Not connected')
+                MetaData['Title'] = 'Not Connected'
             # reset status as the track change flag changes back after query.
             RN52Status = RN52.GetStatus()
     iPodcommand = PyPod.ReadCommand()

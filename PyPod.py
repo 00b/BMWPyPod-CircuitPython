@@ -137,7 +137,7 @@ def PlayControl(val):
     '''
     Action=val[4]
     PlayControls = {1:'PlayPause',2:'Stop',3:'Next',4:'Prev',5:'FF',6:'RW',7:'FFRWEND'}
-    print('PlayControl: ' + PlayControls[Action])
+    print('PyPod.PlayControl: ' + PlayControls[Action])
     if Action == 1 or 2 or 3 or 4:
         AddExtCmdReq(PlayControls[Action])
     Send(Ack(val))
@@ -311,6 +311,7 @@ def ModeRequest(cmd):
         resp = list(iPodMode.to_bytes(1,'big'))
         tosend = resptype + resp
         Send(BuildiPodCmd([0x00],tosend))
+        # AddExtCmdReq('play')
     elif ReqTypeMap[reqpos] == 'Return':
         print('This should not print')
     elif ReqTypeMap[reqpos] == 'Enter':
