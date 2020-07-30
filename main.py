@@ -91,18 +91,33 @@ def ProcessCmdReq(cmd):
 Main loop.
 '''
 StartTime = round(time.monotonic() * 1000)
+UpdateTimer = StartTime
+MDTimer = StartTime
 while(True):
-    elapsed = round(time.monotonic() * 1000 - StartTime)
-    if elapsed > 500 and PyPod.PlayChangeNotification:
+    #elapsed = round(time.monotonic() * 1000 - StartTime)
+    if time.monotonic() * 1000 - UpdateTimer > 500 and PyPod.PlayChangeNotification:
         PyPod.TrackChangeNotification()
+        UpdateTimer = round(time.monotonic() * 1000)
+
+    #Force check for MetaData update once every minute.
+    if time.monotonic() * 1000 - MDTimer > 60000:
+        print('Checking Stored MetaData against RN52 MetaData')
+        NewMD = RN52.GetMetaData()
+        if NewMD != MetaData:
+            print('MetaData changed: sending track update')
+            MetaData = NewMD
+            PyPod.MetaDataUpdate(MetaData)
+            PyPod.TrackChangeNotification('TrackUpdate')
+        MDTimer = round(time.monotonic() * 1000)
 
     if PyPod.MetaData != MetaData:
         PyPod.MetaDataUpdate(MetaData)
         PyPod.TrackChangeNotification('TrackUpdate')
 
     if ChangeCheck():
-        print('Change detected')
         NewStatus = RN52.GetStatus()
+        print('Change detected: ' + str(RN52Status) + ' to ' + str(NewStatus))
+
         if NewStatus != RN52Status:
             if NewStatus[0] == '2':
                 NewMD = RN52.GetMetaData()
@@ -112,7 +127,6 @@ while(True):
                 MetaData = NewMD
                 PyPod.MetaDataUpdate(NewMD)
                 PyPod.TrackChangeNotification('TrackUpdate')
-
             if NewStatus[3] == 'D' and RN52Status[3] == '3':
                 print('Play Status changed to: Playing')
                 PyPod.SetPlayStatus(True)
@@ -124,8 +138,9 @@ while(True):
             if NewStatus[1] == '0' and RN52Status[1] == '4':
                 print('Connection status changed to: Not connected')
                 MetaData['Title'] = 'Not Connected'
-            # reset status as the track change flag changes back after query.
-            RN52Status = RN52.GetStatus()
+        # reset status as the track change flag changes back after query.
+        RN52Status = RN52.GetStatus()
+
     iPodcommand = PyPod.ReadCommand()
     if iPodcommand:
         PyPod.CmdProcessor(iPodcommand)

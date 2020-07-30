@@ -22,9 +22,14 @@ def GetStatus():
     if resp.endswith('\r\n'):
         resp=resp[:-2]
         resp=resp.decode('utf-8')
+    if len(resp) != 4:
+        print('RN52.Invaid Status. Trying again')
+        GetStatus()
+
     return(resp)
 
 def GetMetaData():
+    print('RN52.MetaDataUpdate')
     RN52Uart.timeout = 1
     MetaData = {}
     command = 'AD\n'
