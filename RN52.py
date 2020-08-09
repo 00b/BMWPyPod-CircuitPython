@@ -29,7 +29,7 @@ def GetStatus():
     return(resp)
 
 def GetMetaData():
-    print('RN52.MetaDataUpdate')
+    print('RN52.GetMetaData')
     RN52Uart.timeout = 1
     MetaData = {}
     command = 'AD\n'

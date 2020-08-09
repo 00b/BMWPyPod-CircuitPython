@@ -36,7 +36,6 @@ MetaData = RN52.GetMetaData()
 # Push the metadata to the ipod module.
 PyPod.MetaDataUpdate(MetaData)
 # print(time.monotonic())
-print(MetaData)
 
 # Get Connection Status.
 RN52Status = RN52.GetStatus()
@@ -51,7 +50,7 @@ else:
 
 if RN52Status[1] == '0':
     MetaData['Title'] = 'Not Connected'
-print(MetaData)
+# print(MetaData)
 
 '''
 Check status of ChangeFlag Input pin.
@@ -99,8 +98,8 @@ while(True):
         PyPod.TrackChangeNotification()
         UpdateTimer = round(time.monotonic() * 1000)
 
-    #Force check for MetaData update once every minute.
-    if time.monotonic() * 1000 - MDTimer > 60000:
+    #Force check for MetaData update if X time has passed.
+    if time.monotonic() * 1000 - MDTimer > 15000:
         print('Checking Stored MetaData against RN52 MetaData')
         NewMD = RN52.GetMetaData()
         if NewMD != MetaData:

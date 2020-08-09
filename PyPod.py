@@ -21,7 +21,7 @@ def init(bdrate=19200):
 def MetaDataUpdate(NewMD):
     global MetaData
     MetaData = NewMD
-    print('MetaDataUpdate')
+    print('PyPod.MetaDataUpdate:')
     print(MetaData)
     return(MetaData)
 
